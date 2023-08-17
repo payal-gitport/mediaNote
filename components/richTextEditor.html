@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rich Text Editor</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 10px;
+        padding: 10px;
+      }
+      h1 {
+        color: #333;
+      }
+      #editor {
+        /* border: 1px solid #ccc; */
+        width: 100%;
+        height: calc(100vh - 120px);
+        font-size: 20px;
+        color: #333;
+        background-color: #fff;
+        border: none;
+      }
+      #title {
+        border: none; /* Remove input border */
+        width: 100%;
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      #editor:focus {
+        outline: none;
+        border: none;
+      }
+      .placeholder {
+        color: #2f3b1c;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div
+      id="editor"
+      contenteditable="true"
+      onfocus="removePlaceholder()"
+      onblur="addPlaceholder()"
+    ></div>
+    <script>
+      const editor = document.getElementById("editor");
+
+      function removePlaceholder() {
+        const editor = document.getElementById("editor");
+        if (editor.innerText === "Start typing...") {
+          editor.innerText = "";
+          editor.classList.remove("placeholder");
+          editor.style.color = "#333";
+        }
+      }
+
+      function addPlaceholder() {
+        const editor = document.getElementById("editor");
+        if (editor.innerText === "") {
+          editor.innerText = "Start typing...";
+          editor.classList.add("placeholder");
+          editor.style.color = "#999";
+        }
+      }
+
+      addPlaceholder();
+
+      function addImage(imageUrl) {
+        const imgElement = document.createElement("img");
+        imgElement.src = imageUrl;
+        imgElement.style.maxWidth = "100%";
+        imgElement.style.height = "auto";
+        editor.appendChild(imgElement);
+        editor.innerHTML += "<br>";
+      }
+
+      function addVideo(videoUrl) {
+        const videoElement = document.createElement("video");
+        videoElement.src = videoUrl;
+        videoElement.controls = true;
+        videoElement.style.maxWidth = "100%";
+        videoElement.style.height = "auto";
+        editor.appendChild(videoElement);
+        editor.innerHTML += "<br>";
+      }
+
+      function addAudio(audioUrl) {
+        const audioElement = document.createElement("audio");
+        audioElement.src = audioUrl;
+        audioElement.controls = true;
+        editor.appendChild(audioElement);
+        editor.innerHTML += "<br>";
+      }
+
+      function getEditorContent() {
+        const content = editor.innerHTML;
+        console.log(content, "content in html file");
+        window.ReactNativeWebView.postMessage(content);
+      }
+
+      function buttonClicked() {
+        // Call the function to get editor content and postMessage
+        getEditorContent();
+      }
+    </script>
+  </body>
+</html>
