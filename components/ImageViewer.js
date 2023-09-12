@@ -5,7 +5,7 @@ export default function ImageViewer({ placeholderImageSource, selectedImage }) {
     ? { uri: selectedImage }
     : placeholderImageSource;
 
-  //TODO:update it
+  //TODO:update it now
   return <Image source={imageSource} style={styles.image} />;
 }
 
